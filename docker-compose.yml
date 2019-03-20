@@ -1,6 +1,35 @@
 version: '3'
 
 services:
+
+  tm-poc-abci0:
+    container_name: tm-poc-abci0
+    image: "mgm/tm_abci_poc"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.6
+
+  tm-poc-abci1:
+    container_name: tm-poc-abci1
+    image: "mgm/tm_abci_poc"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.7
+
+  tm-poc-abci2:
+    container_name: tm-poc-abci2
+    image: "mgm/tm_abci_poc"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.8
+
+  tm-poc-abci3:
+    container_name: tm-poc-abci3
+    image: "mgm/tm_abci_poc"
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.9
+
   node0:
     container_name: node0
     image: "tendermint/localnode"
@@ -11,6 +40,7 @@ services:
       - LOG=${LOG:-tendermint.log}
     volumes:
       - ./build:/tendermint:Z
+    command: node --consensus.create_empty_blocks=false --proxy_app=tcp://tm-poc-abci0:26658
     networks:
       localnet:
         ipv4_address: 192.167.10.2
@@ -25,6 +55,7 @@ services:
       - LOG=${LOG:-tendermint.log}
     volumes:
       - ./build:/tendermint:Z
+    command: node --consensus.create_empty_blocks=false --proxy_app=tcp://tm-poc-abci1:26658
     networks:
       localnet:
         ipv4_address: 192.167.10.3
@@ -39,6 +70,7 @@ services:
       - "26661-26662:26656-26657"
     volumes:
       - ./build:/tendermint:Z
+    command: node --consensus.create_empty_blocks=false --proxy_app=tcp://tm-poc-abci2:26658
     networks:
       localnet:
         ipv4_address: 192.167.10.4
@@ -53,6 +85,7 @@ services:
       - "26663-26664:26656-26657"
     volumes:
       - ./build:/tendermint:Z
+    command: node --consensus.create_empty_blocks=false --proxy_app=tcp://tm-poc-abci3:26658
     networks:
       localnet:
         ipv4_address: 192.167.10.5
