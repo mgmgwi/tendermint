@@ -153,6 +153,9 @@ func testnetFiles(cmd *cobra.Command, args []string) error {
 		}
 	}
 
+	// Overwrite default IndexTags
+	config.TxIndex.IndexTags = "id, name"
+
 	// Overwrite default config.
 	for i := 0; i < nValidators+nNonValidators; i++ {
 		nodeDir := filepath.Join(outputDir, fmt.Sprintf("%s%d", nodeDirPrefix, i))
