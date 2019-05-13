@@ -156,6 +156,9 @@ func testnetFiles(cmd *cobra.Command, args []string) error {
 	// Overwrite default IndexTags
 	config.TxIndex.IndexTags = "id, name"
 
+	// We may need to use cross site domain requests, so we enable CORS
+	config.RPC.CORSAllowedOrigins = []string{"http://localhost:8088", "http://localhost:8080"}
+
 	// Overwrite default config.
 	for i := 0; i < nValidators+nNonValidators; i++ {
 		nodeDir := filepath.Join(outputDir, fmt.Sprintf("%s%d", nodeDirPrefix, i))
